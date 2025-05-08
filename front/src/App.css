@@ -1,0 +1,11 @@
+.App {
+  max-width: 500px;
+  margin: 50px auto;
+  text-align: center;
+}
+
+
+li {
+  list-style: none;
+  margin: 10px 0;
+}
