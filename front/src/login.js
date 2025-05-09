@@ -1,0 +1,45 @@
+import { Admin, Resource, ListGuesser } from 'react-admin';
+import App from './App'
+import simpleRestProvider from 'ra-data-simple-rest';
+
+// 認証処理
+const authProvider = {
+    login: ({ username, password }) => {
+      return fetch("http://192.168.3.4:5000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      })
+      .then((res) => {
+        if (!res.ok) throw new Error("Login failed");
+        return res.json();
+      })
+      .then((data) => {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("username", data.username);
+      });
+    },
+    logout: () => {
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+      return Promise.resolve();
+    },
+    checkAuth: () => {
+      return localStorage.getItem("token") ? Promise.resolve() : Promise.reject();
+    },
+    checkError: () => Promise.resolve(),
+    getPermissions: () => Promise.resolve(),
+  };
+  
+  const dataProvider = simpleRestProvider('http://192.168.3.4:5000/login');
+  function Login() {
+    return (
+      <Admin dataProvider={dataProvider} authProvider={authProvider}>
+        <Resource name="task" list={App} />
+      </Admin>
+    );
+  }
+  
+  export default Login;

@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import mysql.connector
+from login_api import auth_login
+
 
 app = Flask(__name__)
 CORS(app)
@@ -13,6 +15,11 @@ conn = mysql.connector.connect(
     database="tbt002"
 )
 cursor = conn.cursor()
+
+
+# Blueprint を登録
+app.register_blueprint(auth_login)
+
 
 @app.route("/todos", methods=["POST"])
 def add_todo():
