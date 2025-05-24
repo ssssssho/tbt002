@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import './App.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { API_BASE_URL } from "./constants";
 
 function App() {
   // 1. 入力中の文字（input）と、ToDoのリスト（todos）を状態で管理する
@@ -19,7 +20,7 @@ function App() {
   }, []);
   
   const fetchTodos = () => {
-    fetch("http://192.168.3.4:5000/get_tasks")
+    fetch(`${ API_BASE_URL }/get_tasks`)
       .then((res) => res.json())
       .then((data) => setTodos(data))
       .catch((err) => console.error("取得エラー:", err));
@@ -32,7 +33,7 @@ function App() {
     }else{
       // 保存処理
       const formattedDate = format(new Date(input_date), 'yyyy-MM-dd');
-      fetch("http://192.168.3.4:5000/todos", {
+      fetch(`${ API_BASE_URL }/todos`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -57,7 +58,7 @@ function App() {
 
   const handleDelete = (id) => {
       // 削除処理
-      fetch(`http://192.168.3.4:5000/delete_tasks/${id}`, {
+      fetch(`${ API_BASE_URL }/delete_tasks/${id}`, {
         method: "DELETE",
       })
       .then(res => res.json())

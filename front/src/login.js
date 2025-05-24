@@ -1,11 +1,12 @@
 import { Admin, Resource, ListGuesser } from 'react-admin';
 import App from './App'
 import simpleRestProvider from 'ra-data-simple-rest';
+import { API_BASE_URL } from "./constants";
 
 // 認証処理
 const authProvider = {
     login: ({ username, password }) => {
-      return fetch("http://192.168.3.4:5000/login", {
+      return fetch(`${ API_BASE_URL }/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,7 +34,7 @@ const authProvider = {
     getPermissions: () => Promise.resolve(),
   };
   
-  const dataProvider = simpleRestProvider('http://192.168.3.4:5000/login');
+  const dataProvider = simpleRestProvider(`${ API_BASE_URL }/login`);
   function Login() {
     return (
       <Admin dataProvider={dataProvider} authProvider={authProvider}>

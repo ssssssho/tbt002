@@ -55,4 +55,4 @@ def delete_tasks(task_id):
 
 
 if __name__ == '__main__':
-    app.run(host='192.168.3.4', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
